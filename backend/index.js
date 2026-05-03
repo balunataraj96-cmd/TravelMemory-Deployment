@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
@@ -6,7 +7,11 @@ const app = express()
 PORT = process.env.PORT
 const conn = require('./conn')
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}))
 
 const tripRoutes = require('./routes/trip.routes')
 
@@ -15,7 +20,6 @@ app.use('/trip', tripRoutes) // http://localhost:3001/trip --> POST/GET/GET by I
 app.get('/hello', (req,res)=>{
     res.send('Hello World!')
 })
-
 app.listen(PORT, ()=>{
     console.log(`Server started at http://localhost:${PORT}`)
 })
